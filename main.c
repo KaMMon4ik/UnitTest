@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <memory.h>
 
 double* full_elements(double* ptr, int len) {
 
@@ -71,52 +70,6 @@ double* delete_element(double* ptr, int len, int index) {
 
 }
 
-int comparator(double* a, double* b) {
-	if (*a<*b) return -1;
-	if (*a>*b) return 1;
-	return 0;
-}
-
-double* sort_array(double* ptr, int len) {
-
-	if (ptr==NULL || len<=0) return NULL;
-	double* new_ptr = malloc(len*sizeof(double));
-	if (new_ptr==NULL ) return NULL;
-
-	memcpy(new_ptr, ptr, len*sizeof(double));
-	
-	qsort(new_ptr, len, sizeof(double), comparator);
-	return new_ptr;
-
-}
-
-double sum_elements(double* ptr, int len, int begin, int end) {
-
-	if (ptr==NULL || len<=0 || begin<0 || begin>=len || end<0 || end>=len || begin>end) return 0;
-
-	double sum = 0;
-	for (int i=begin; i<=end; ++i) sum += ptr[i];
-
-	return sum;
-
-}
-
-int find_element(double* ptr, int len, double val) {
-
-	if (ptr==NULL || len<=0) return -1;
-
-	int index = -1;
-	for (int i=0; i<len; ++i) {
-		if (ptr[i]==val) {
-			index = i;
-			break;
-		}
-	}
-
-	return index;
-
-}
-
 double* task_1() {
 
 	double* ptr;
@@ -141,20 +94,28 @@ double* task_1() {
 
 }
 
+int comp(const void* a, const void* b) {
+	return *(double*)a-*(double*)b;
+}
+
+double* sort_array(double* ptr, int len) {
+
+	qsort(ptr, len, sizeof(double), comp);
+
+	return ptr;
+
+}
+
 void main() {
 
 	setlocale(LC_ALL, "RUS");
 
-	test_task_1(task_1);
+	//test_task_1(task_1);
 	
-	test_insert_element(insert_element);
+	//test_insert_element(insert_element);
 
-	test_delete_element(delete_element);
+	//test_delete_element(delete_element);
 
 	test_sort_array(sort_array);
-
-	test_sum_elements(sum_elements);
-
-	test_find_element(find_element);
 
 }
